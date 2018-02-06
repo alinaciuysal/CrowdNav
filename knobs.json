@@ -12,5 +12,5 @@
   "freshnessCutOffValueDescription": "if data is older than this we do not consider it in the algorithm",
   "freshnessCutOffValue": 100,
   "reRouteEveryTicksDescription": "check for a new route very x times after the car starts",
-  "reRouteEveryTicks": 10
+  "reRouteEveryTicks": 60
 }

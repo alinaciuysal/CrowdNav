@@ -67,7 +67,7 @@ class Simulation(object):
             duration = current_milli_time() - cls.lastTick
             cls.lastTick = current_milli_time()
             msg = dict()
-            msg["duration"] = duration
+            msg[Config.dataProviderVariable1] = duration
             RTXForword.publish(msg, Config.kafkaTopicPerformance)
 
             # Check for removed cars and re-add them into the system
@@ -79,7 +79,7 @@ class Simulation(object):
             CarRegistry.processTick(cls.tick)
             # log time it takes for routing
             msg = dict()
-            msg["duration"] = current_milli_time() - timeBeforeCarProcess
+            msg[Config.dataProviderVariable2] = current_milli_time() - timeBeforeCarProcess
             RTXForword.publish(msg, Config.kafkaTopicRouting)
 
             # if we enable this we get debug information in the sumo-gui using global traveltime

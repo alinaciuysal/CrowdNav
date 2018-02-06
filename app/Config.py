@@ -5,7 +5,7 @@
 # should use kafka for config changes (else it uses json file)
 kafkaUpdates = True
 # the kafka host we want to send our messages to
-kafkaHost = "exp1:9092"
+kafkaHost = "kafka:9092"
 
 mqttUpdates = False
 mqttHost = "localhost"
@@ -34,13 +34,20 @@ initialWaitTicks = 200
 # the total number of cars we use in our simulation
 totalCarCounter = 750
 
-smartCarCounter = 750
+smartCarCounter = 150
 
 # percentage of cars that are smart
 # DEPRECATED - USE smartCarCounter instead
 smartCarPercentage = 0.2
 
+# output variables to be used by OEDA
+outputVariable1 = "overhead"
+outputVariable2 = "complaint"
+outputVariable3 = "minimalCosts"
 
+# variables that are forwarded to crowd-nav-performance and crowd-nav-routing topics, respectively
+dataProviderVariable1 = "lastTickDuration"
+dataProviderVariable2 = "routingDuration"
 
 # runtime dependent variable
 processID = 0

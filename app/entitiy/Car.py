@@ -86,9 +86,10 @@ class Car:
             #                                 minimalCosts, tripOverhead, self.id, self.currentRouterResult.isVictim])
             # log to kafka
             msg = dict()
-            msg["tick"] = tick
-            msg["overhead"] = tripOverhead
-            msg["complaint"] = self.generate_complaint(tripOverhead)
+            msg[Config.outputVariable1] = tripOverhead
+            msg[Config.outputVariable2] = self.generate_complaint(tripOverhead)
+            msg[Config.outputVariable3] = minimalCosts
+			
             RTXForword.publish(msg, Config.kafkaTopicTrips)
 
         # if car is still enabled, restart it in the simulation
