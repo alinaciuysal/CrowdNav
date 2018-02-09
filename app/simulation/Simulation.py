@@ -63,12 +63,14 @@ class Simulation(object):
             cls.tick += 1
             traci.simulationStep()
 
-            # Log tick duration to kafka
             duration = current_milli_time() - cls.lastTick
             cls.lastTick = current_milli_time()
-            msg = dict()
-            msg[Config.dataProviderVariable1] = duration
-            RTXForword.publish(msg, Config.kafkaTopicPerformance)
+
+            # publish tick duration to kafka every 50 ticks
+            if cls.tick % 50 == 0:
+                msg = dict()
+                msg[Config.dataProviderVariable1] = duration
+                RTXForword.publish(msg, Config.kafkaTopicPerformance)
 
             # Check for removed cars and re-add them into the system
             for removedCarId in traci.simulation.getSubscriptionResults()[122]:
@@ -77,10 +79,12 @@ class Simulation(object):
             timeBeforeCarProcess = current_milli_time()
             # let the cars process this step
             CarRegistry.processTick(cls.tick)
-            # log time it takes for routing
-            msg = dict()
-            msg[Config.dataProviderVariable2] = current_milli_time() - timeBeforeCarProcess
-            RTXForword.publish(msg, Config.kafkaTopicRouting)
+
+            # publish "time it takes for routing" to kafka every 50 ticks
+            if cls.tick % 50 == 0:
+                msg = dict()
+                msg[Config.dataProviderVariable2] = current_milli_time() - timeBeforeCarProcess
+                RTXForword.publish(msg, Config.kafkaTopicRouting)
 
             # if we enable this we get debug information in the sumo-gui using global traveltime
             # should not be used for normal running, just for debugging
