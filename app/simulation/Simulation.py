@@ -105,7 +105,7 @@ class Simulation(object):
                     if newConf is not None:
                         if "exploration_percentage" in newConf:
                             CustomRouter.explorationPercentage = newConf["exploration_percentage"]
-                            print("setting victimsPercentage: " + str(newConf["exploration_percentage"]))
+                            print("setting explorationPercentage: " + str(newConf["exploration_percentage"]))
                         if "route_random_sigma" in newConf:
                             CustomRouter.routeRandomSigma = newConf["route_random_sigma"]
                             print("setting routeRandomSigma: " + str(newConf["route_random_sigma"]))
