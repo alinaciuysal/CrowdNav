@@ -127,7 +127,7 @@ class Car:
 
         self.lastRerouteCounter += 1
         # reroute every x ticks based on config value
-        if self.lastRerouteCounter >= CustomRouter.reRouteEveryTicks and CustomRouter.reRouteEveryTicks > 0:
+        if self.lastRerouteCounter >= CustomRouter.re_routing_frequency and CustomRouter.re_routing_frequency > 0:
             self.lastRerouteCounter = 0
             if self.smartCar:
                 try:

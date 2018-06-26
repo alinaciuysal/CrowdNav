@@ -15,19 +15,19 @@ class CustomRouter(object):
     graph = None
 
     # the percentage of smart cars that should be used for exploration
-    explorationPercentage = 0.0 # INITIAL JSON DEFINED!!!
+    exploration_percentage = 0.0 # INITIAL JSON DEFINED!!!
     # randomizes the routes
-    routeRandomSigma = 0.2 # INITIAL JSON DEFINED!!!
+    route_randomization = 0.2 # INITIAL JSON DEFINED!!!
     # how much speed influences the routing
-    maxSpeedAndLengthFactor = 1 # INITIAL JSON DEFINED!!!
+    static_info_weight = 1 # INITIAL JSON DEFINED!!!
     # multiplies the average edge value
-    averageEdgeDurationFactor = 1 # INITIAL JSON DEFINED!!!
+    dynamic_info_weight = 1 # INITIAL JSON DEFINED!!!
     # how important it is to get new data
-    freshnessUpdateFactor = 10 # INITIAL JSON DEFINED!!!
+    exploration_weight = 10 # INITIAL JSON DEFINED!!!
     # defines what is the oldest value that is still a valid information
-    freshnessCutOffValue = 500.0 # INITIAL JSON DEFINED!!!
+    data_freshness_threshold = 500.0 # INITIAL JSON DEFINED!!!
     # how often we reroute cars
-    reRouteEveryTicks = 20 # INITIAL JSON DEFINED!!!
+    re_routing_frequency = 20 # INITIAL JSON DEFINED!!!
 
     @classmethod
     def init(self):
@@ -51,7 +51,7 @@ class CustomRouter(object):
     def route(cls, fr, to, tick, car):
         """ creates a route from the f(node) to the t(node) """
         # 1) SIMPLE COST FUNCTION
-        # cost_func = lambda u, v, e, prev_e: max(0,gauss(1, CustomRouter.routeRandomSigma) \
+        # cost_func = lambda u, v, e, prev_e: max(0,gauss(1, CustomRouter.route_randomization) \
         #                                         * (e['length']) / (e['maxSpeed']))
 
         # if car.victim:
@@ -64,7 +64,7 @@ class CustomRouter(object):
         # else:
         # 2) Advanced cost function that combines duration with averaging
         # isVictim = ??? random x percent (how many % routes have been victomized before)
-        isVictim = cls.explorationPercentage > random()
+        isVictim = cls.exploration_percentage > random()
         if isVictim:
             victimizationChoice = 1
         else:
@@ -72,16 +72,16 @@ class CustomRouter(object):
 
         cost_func = lambda u, v, e, prev_e: \
             cls.getFreshness(e["edgeID"], tick) * \
-            cls.averageEdgeDurationFactor * \
+            cls.dynamic_info_weight * \
             cls.getAverageEdgeDuration(e["edgeID"]) \
             + \
             (1 - cls.getFreshness(e["edgeID"], tick)) * \
-            cls.maxSpeedAndLengthFactor * \
-            max(1, gauss(1, cls.routeRandomSigma) *
-            (e['length']) / e['maxSpeed']) \
+            cls.static_info_weight * \
+            max(1, gauss(1, cls.route_randomization) *
+                (e['length']) / e['maxSpeed']) \
             - \
             (1 - cls.getFreshness(e["edgeID"], tick)) * \
-            cls.freshnessUpdateFactor * \
+            cls.exploration_weight * \
             victimizationChoice
 
         # generate route
@@ -93,7 +93,7 @@ class CustomRouter(object):
     def getFreshness(cls, edgeID, tick):
         try:
             lastUpdate = float(tick) - cls.edgeMap[edgeID].lastDurationUpdateTick
-            return 1 - min(1, max(0, lastUpdate / cls.freshnessCutOffValue))
+            return 1 - min(1, max(0, lastUpdate / cls.data_freshness_threshold))
         except TypeError as e:
             # print("error in getFreshnessFactor" + str(e))
             return 1

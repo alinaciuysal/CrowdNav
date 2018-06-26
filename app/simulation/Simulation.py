@@ -33,12 +33,12 @@ class Simulation(object):
         """ reads configs from a json and applies it at realtime to the simulation """
         try:
             config = json.load(open('./knobs.json'))
-            CustomRouter.explorationPercentage = config['explorationPercentage']
-            CustomRouter.averageEdgeDurationFactor = config['averageEdgeDurationFactor']
-            CustomRouter.maxSpeedAndLengthFactor = config['maxSpeedAndLengthFactor']
-            CustomRouter.freshnessUpdateFactor = config['freshnessUpdateFactor']
-            CustomRouter.freshnessCutOffValue = config['freshnessCutOffValue']
-            CustomRouter.reRouteEveryTicks = config['reRouteEveryTicks']
+            CustomRouter.exploration_percentage = config['exploration_percentage']
+            CustomRouter.dynamic_info_weight = config['dynamic_info_weight']
+            CustomRouter.static_info_weight = config['static_info_weight']
+            CustomRouter.exploration_weight = config['exploration_weight']
+            CustomRouter.data_freshness_threshold = config['data_freshness_threshold']
+            CustomRouter.re_routing_frequency = config['re_routing_frequency']
         except:
             pass
 
@@ -104,26 +104,26 @@ class Simulation(object):
                     newConf = RTXConnector.checkForNewConfiguration()
                     if newConf is not None:
                         if "exploration_percentage" in newConf:
-                            CustomRouter.explorationPercentage = newConf["exploration_percentage"]
-                            print("setting explorationPercentage: " + str(newConf["exploration_percentage"]))
-                        if "route_random_sigma" in newConf:
-                            CustomRouter.routeRandomSigma = newConf["route_random_sigma"]
-                            print("setting routeRandomSigma: " + str(newConf["route_random_sigma"]))
-                        if "max_speed_and_length_factor" in newConf:
-                            CustomRouter.maxSpeedAndLengthFactor = newConf["max_speed_and_length_factor"]
-                            print("setting maxSpeedAndLengthFactor: " + str(newConf["max_speed_and_length_factor"]))
-                        if "average_edge_duration_factor" in newConf:
-                            CustomRouter.averageEdgeDurationFactor = newConf["average_edge_duration_factor"]
-                            print("setting averageEdgeDurationFactor: " + str(newConf["average_edge_duration_factor"]))
-                        if "freshness_update_factor" in newConf:
-                            CustomRouter.freshnessUpdateFactor = newConf["freshness_update_factor"]
-                            print("setting freshnessUpdateFactor: " + str(newConf["freshness_update_factor"]))
-                        if "freshness_cut_off_value" in newConf:
-                            CustomRouter.freshnessCutOffValue = newConf["freshness_cut_off_value"]
-                            print("setting freshnessCutOffValue: " + str(newConf["freshness_cut_off_value"]))
-                        if "re_route_every_ticks" in newConf:
-                            CustomRouter.reRouteEveryTicks = newConf["re_route_every_ticks"]
-                            print("setting reRouteEveryTicks: " + str(newConf["re_route_every_ticks"]))
+                            CustomRouter.exploration_percentage = newConf["exploration_percentage"]
+                            print("setting exploration_percentage: " + str(newConf["exploration_percentage"]))
+                        if "route_randomization" in newConf:
+                            CustomRouter.route_randomization = newConf["route_randomization"]
+                            print("setting route_randomization: " + str(newConf["route_randomization"]))
+                        if "static_info_weight" in newConf:
+                            CustomRouter.static_info_weight = newConf["static_info_weight"]
+                            print("setting static_info_weight: " + str(newConf["static_info_weight"]))
+                        if "dynamic_info_weight" in newConf:
+                            CustomRouter.dynamic_info_weight = newConf["dynamic_info_weight"]
+                            print("setting dynamic_info_weight: " + str(newConf["dynamic_info_weight"]))
+                        if "exploration_weight" in newConf:
+                            CustomRouter.exploration_weight = newConf["exploration_weight"]
+                            print("setting exploration_weight: " + str(newConf["exploration_weight"]))
+                        if "data_freshness_threshold" in newConf:
+                            CustomRouter.data_freshness_threshold = newConf["data_freshness_threshold"]
+                            print("setting data_freshness_threshold: " + str(newConf["data_freshness_threshold"]))
+                        if "re_routing_frequency" in newConf:
+                            CustomRouter.re_routing_frequency = newConf["re_routing_frequency"]
+                            print("setting re_routing_frequency: " + str(newConf["re_routing_frequency"]))
                         if "total_car_counter" in newConf:
                             CarRegistry.totalCarCounter = newConf["total_car_counter"]
                             CarRegistry.applyCarCounter()
